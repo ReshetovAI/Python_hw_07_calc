@@ -24,3 +24,13 @@ def PrintSum():
 def PrintSub():
     substraction = model.SubData()
     view.OutputSub(substraction)
+
+
+def PrintMult():
+    multiplication = model.MultiData()
+    view.OutputMult(multiplication)
+
+
+def PrintDiv():
+    division = model.DivData()
+    view.OutputDiv(division)

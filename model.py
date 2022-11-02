@@ -7,6 +7,7 @@ def CalcData():
 
 a = 0
 b = 0
+listOmerator = ['*', '/', '+', '-']
 
 
 def InitA(number: int):

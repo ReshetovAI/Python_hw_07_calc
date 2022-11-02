@@ -13,3 +13,16 @@ def OutputResult(number):
 
 def OutputSub(number):
     print(f'Результат операции = {number}')
+
+
+def OutputMult(number):
+    print(f'Результат операции = {number}')
+
+
+def OutputDiv(number):
+    print(f'Результат операции = {number}')
+
+
+def InputOperator(char0):
+    char0 = str(input(f'Введите оператор {char0}: '))
+    return char0
