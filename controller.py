@@ -2,56 +2,66 @@ import view
 import model
 
 
-# def initData():
-#     a = view.InputData('A')
-#     b = view.InputData('B')
-#     model.InitA(a)
-#     model.InitB(b)
+def operation(list, i, oper):
+    if list[i] == oper:
+        list[i -
+             1] = model.opSelect.get(oper)(int(list[i - 1]), int(list[i + 1]))
+        deleteElement(list, i)
+        return True
+    return False
 
 
-# def PrintValues():
-#     a = model.GetA()
-#     b = model.GetB()
-#     view.OutputData(a)
-#     view.OutputData(b)
+def deleteElement(string, i):
+    string.pop(i)
+    string.pop(i)
 
 
-# def PrintSum():
-#     result = model.SumData()
-#     view.OutputResult(result)
+def calculate(list: list):
+    while len(list) > 1:
+        if '*' in list or '/' in list:
+            for i in range(len(list)):
+                if operation(list, i, '*'):
+                    break
+                if operation(list, i, '/'):
+                    break
+
+        elif '+' in list or '-' in list:
+            for i in range(len(list)):
+                if operation(list, i, '+'):
+                    break
+                if operation(list, i, '-'):
+                    break
+    return list
 
 
-# def PrintSub():
-#     substraction = model.SubData()
-#     view.OutputSub(substraction)
-
-
-# def PrintMult():
-#     multiplication = model.MultiData()
-#     view.OutputMult(multiplication)
-
-
-# def PrintDiv():
-#     division = model.DivData()
-#     view.OutputDiv(division)
-
-
-def start():
-    a = view.InputData('первое')
-    model.set_first(a)
-    while True:
-        oper = view.InputOperator()
-        if oper == '=':
+def sliceByParentheses(expression: list):
+    open_par, close_par = None, None
+    for index, item in enumerate(expression):
+        if item == "(":
+            open_par = index
+        elif item == ")":
+            close_par = index
+        if open_par != None and close_par != None:
+            expression1 = expression[:open_par]
+            expression2 = calculate(expression[open_par+1:close_par])
+            expression3 = expression[close_par+1:]
+            expression = []
+            expression.extend(expression1)
+            expression.extend(expression2)
+            expression.extend(expression3)
             break
-        b = view.InputData('второе')
-        model.set_second(b)
-        model.set_result(oper)
-        result = model.get_result()
-        if result == None:
-            view.division_by_zero()
-            break
-        first = model.get_first()
-        second = model.get_second()
-        view.OutputResult(first, second, oper, result)
-        view.print_window(result)
-        model.set_first(result)
+    return expression
+
+
+def solutionExpression(expression: str):
+    expression = model.stringToList(expression)
+    while len(expression) > 1:
+        # print(expression)
+        if ('(' in expression) and (')' in expression):
+            expression = sliceByParentheses(expression)
+        else:
+            expression = calculate(expression)
+    model.result = expression[0]
+    view.printResult()
+
+# sliceByParentheses('(1+3*(4-5*2) +10)/2')
